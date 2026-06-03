@@ -1,0 +1,175 @@
+﻿Active Reconnaissance & Vulnerability Scanning  
+
+Parameter	Details
+Prepared By	RUDRESHA RK
+Target System	Metasploitable 2 (Linux)
+Target IP Address	
+192.168.56.101
+Attacker Machine	Kali Linux
+Network Type	VirtualBox Host-Only (192.168.56.0/24)
+Tools Used	Nmap, Nikto
+Assessment Type	Active Reconnaissance & Vulnerability Scanning
+Date	June 3, 2026
+Institution	InternSpark internship
+Classification	CONFIDENTIAL / INTERNAL ONLY
+
+
+
+1. Introduction
+1.1 Purpose
+This report presents the findings of an active reconnaissance and vulnerability assessment conducted on a controlled, isolated test environment. The objective was to identify open ports, running services, software versions, and exploitable vulnerabilities on the target system using industry-standard ethical hacking tools and methodologies. The assessment was performed as part of a structured cybersecurity internship curriculum focusing on offensive security techniques, responsible vulnerability disclosure, and professional security documentation practices.
+
+1.2 Scope
+All activities were carried out exclusively within an isolated VirtualBox Host-Only network. The target machine, Metasploitable 2, is an intentionally vulnerable Linux-based virtual machine designed specifically for penetration testing practice. No external networks, public IP addresses, or third-party systems were accessed or affected at any point during this assessment.
+
+1.3 Objectives
+    • Perform host discovery and confirm availability of the target on the local network.
+    • Enumerate all open TCP ports and identify services and software versions running on each.
+    • Conduct web server vulnerability scanning to detect misconfigurations, exposed files, and insecure components.
+    • Document all identified vulnerabilities with severity ratings, risk descriptions, and remediation steps.
+    • Produce a structured security report suitable for technical review and academic submission.
+
+2. Executive Summary
+A total of six (6) core vulnerabilities were flagged during this assessment. The target system, Metasploitable 2, presents an extremely weak security posture due to the presence of multiple backdoored services, legacy unencrypted remote access protocols, and critical databases running completely without authentication controls.
+
+Vulnerability Distribution Matrix
+Severity	Count
+CRITICAL	2
+HIGH	3
+MEDIUM	1
+LOW	0
+Total	6
+
+
+3. Scan Results & Evidence Injection
+3.1 Host Discovery — Nmap Ping Sweep
+    • Command executed:
+      Bash
+      nmap -sn 192.168.56.101
+
+
+
+3.2 Port & Service Enumeration ---Nmap -sV Scan
+
+  nmap -sV 192.168.56.101
+
+The primary targets of interest identified on the machine include:
+Port	State	Service & Version	Severity	Finding Ref.
+21/tcp	open	vsftpd 2.3.4	CRITICAL	F-01
+22/tcp	open	OpenSSH 4.7p1	LOW	—
+23/tcp	open	Linux telnetd	HIGH	F-02
+80/tcp	open	Apache httpd 2.2.8	MEDIUM	F-05
+139/tcp	open	Samba smbd 3.X	HIGH	F-03
+445/tcp	open	Samba smbd 3.0.20	HIGH	F-03
+3306/tcp	open	MySQL 5.0.51a	HIGH	F-04
+5432/tcp	open	PostgreSQL DB 8.3	MEDIUM	—
+6667/tcp	open	UnrealIRCd	CRITICAL	F-06
+8180/tcp	open	Apache Tomcat/Coyote JSP engine 1.1	MEDIUM	—
+
+3.3 Aggressive Scripts and OS Footprinting Scan
+    • Command executed:
+      Bash
+      nmap -A -sV -p- 192.168.56.101 -oN nmap_scan.txt
+
+
+ 3.4 Web Application Security Assessment — Nikto
+
+Command:
+nikto -h 192.168.56.101
+
+
+4. Detailed Technical Findings
+Finding F-01 — FTP Backdoor (vsftpd 2.3.4)
+Field	Details
+Severity	CRITICAL
+Port / Service	21/tcp — FTP (vsftpd 2.3.4)
+CVE Identifier	CVE-2011-2523
+Description	The deployed version of vsftpd contains an unauthenticated backdoor embedded inside the software code package. When a logon request contains a username with the signature smiley face string :), the daemon activates a listener root terminal binding directly across TCP port 6200.
+Risk / Impact	Any unauthenticated remote network actor can interact with port 6200 to achieve instant root shell execution capabilities, yielding complete target administrative compromise.
+Remediation Steps	1. Update the local package listings and upgrade vsftpd components to stable versions (> 3.0.x).
+
+2. If administrative workflows do not rely on local FTP operations, close down the service container entirely.
+
+
+Finding F-02 — Telnet Service Enabled (Plaintext Protocol)
+Field	Details
+Severity	HIGH
+Port / Service	23/tcp — Telnet (Linux telnetd)
+CVE Identifier	N/A — Inherent Protocol Design Vulnerability
+Description	The server utilizes a legacy Telnet management setup on port 23. The underlying transmission mechanics transport authentication sessions, terminal commands, and passwords over the local area network wire without cryptographic encapsulation.
+Risk / Impact	Internal network tracking actors running active sniffers (such as Wireshark or tcpdump) can record raw communication frames, extract valid cleartext user profiles, and breach the target system.
+Remediation Steps	1. Instantly stop the operational lifecycle of the legacy telnet service component.
+
+2. Enforce the exclusive integration of SSH (Port 22) for all console management routes.
+
+Finding F-03 — Samba Remote Code Execution (CVE-2007-2447)
+Field	Details
+Severity	HIGH
+Port / Service	139/tcp, 445/tcp — Samba smbd 3.0.20
+CVE Identifier	CVE-2007-2447
+Description	The file-sharing structure on the machine runs an outdated Samba iteration (3.0.20) that contains a remote command execution bug within the MS-RPC SamrChangePassword system module. Passing an input variable payload populated with active shell escape characters forces the server engine to evaluate and execute the payload.
+Risk / Impact	Yields unauthenticated shell invocation commands over the network. This vulnerability can be targeted with public exploit definitions like Metasploit's usermap_script module.
+Remediation Steps	1. Force structural upgrade cycles to replace vulnerable legacy Samba builds with patched software variants.
+
+2. Filter external connection vectors on active ports 139 and 445 via access lists.
+
+Finding F-04 — MySQL — No Root Password
+Field	Details
+Severity	HIGH
+Port / Service	3306/tcp — MySQL 5.0.51a
+CVE Identifier	CWE-521
+Description	The database system is configured to listen globally across network interfaces, and does not restrict the root account profile with an authentication secret password string.
+Risk / Impact	Grants complete unauthenticated control over all structural data storage elements. Attackers can view, extract, drop, or alter database entries, or write arbitrary files onto the server filesystem (INTO OUTFILE).
+Remediation Steps	1. Apply proper password assignments on the database instance root profile.
+
+2. Edit the application daemon configuration layout (my.cnf) to enforce local interface isolation (bind-address = 127.0.0.1).
+
+Finding F-05 — Apache phpinfo.php Information Disclosure
+Field	Details
+Severity	MEDIUM
+Port / Service	80/tcp — Apache httpd 2.2.8
+CVE Identifier	CWE-200
+Description	An exposed diagnostic script component (/phpinfo.php) was identified on the web server web root directory by the Nikto scanner engine.
+Risk / Impact	Exposes operational metadata including absolute workspace pathing arrays, current server module releases, configuration flags, environmental system configurations, and extension maps to unauthenticated web browsers.
+Remediation Steps	1. Permanently remove diagnostic components from the server document workspace (rm /var/www/phpinfo.php).
+
+2. Adjust the Apache master directory indexing policies to avoid open directory browsing (Options -Indexes).
+
+
+
+Finding F-06 — UnrealIRCd Backdoor (CVE-2010-2075)
+Field	Details
+Severity	CRITICAL
+Port / Service	6667/tcp — IRC (UnrealIRCd)
+CVE Identifier	CVE-2010-2075
+Description	The source archive package for UnrealIRCd 3.2.8.1 was subject to an upstream supply chain modification compromise where malicious code was injected into the build. Transmitting the key parameter payload string AB; instantly targets the backend server process, invoking system-level command interpreter hooks.
+Risk / Impact	Allows unauthenticated remote command execution routines on the system running with the privilege level of the background application worker daemon process.
+Remediation Steps	1. Completely purge the active UnrealIRCd compilation distribution layout folders from the machine.
+
+2. If chat relays are necessary, compile verified source distributions validated using official cryptographic checksum verification hashes.
+
+5. Risk Summary Table
+Finding ID	Vulnerability Description	Port / Service	Severity	CVE / CWE Reference	Remediation Priority
+F-01	FTP Backdoor (vsftpd 2.3.4)	21/tcp — FTP	CRITICAL	CVE-2011-2523	Immediate
+F-02	Telnet Service Active Cleartext Transmission	23/tcp — Telnet	HIGH	N/A	Immediate
+F-03	Samba Remote Code Execution Vulnerability	139, 445 — SMB	HIGH	CVE-2007-2447	Immediate
+F-04	MySQL Database Engine Lack of Passwords	3306/tcp — MySQL	HIGH	CWE-521	Immediate
+F-05	phpinfo.php Technical Parameter Leakage	80/tcp — HTTP	MEDIUM	CWE-200	Short-term
+F-06	UnrealIRCd Remote Code Injection Hook	6667/tcp — IRC	CRITICAL	CVE-2010-2075	Immediate
+
+6. Remediation Plan
+Priority	Finding ID	Remediation Objective	Technical Mitigation Directives	Operational Timeline
+1	F-01	Remove vsftpd 2.3.4	Upgrade vsftpd or disable FTP. Block port 21. Verify no shell on port 6200.	Immediate (24hr)
+2	F-06	Remove UnrealIRCd	Uninstall UnrealIRCd 3.2.8.1. Block port 6667. Reinstall clean software source.	Immediate (24hr)
+3	F-02	Disable Telnet Daemon	Stop telnetd service. Use SSH exclusively for remote access.	Immediate (24hr)
+4	F-03	Patch Samba	Upgrade to current Samba release. Restrict SMB to trusted hosts via firewall.	Immediate (48hr)
+5	F-04	Secure MySQL root Account	Set a strong root password. Bind MySQL to localhost. Block port 3306.	Immediate (48hr)
+6	F-05	Remove phpinfo.php	Delete diagnostic files from web root. Disable directory listing. Add security headers.	Short-term (7 Days)
+
+7. Conclusion
+This vulnerability assessment of Metasploitable 2 identified six significant security vulnerabilities, including two critical backdoored services that allow unauthenticated remote root access. The overall security posture of the system is extremely poor, consistent with its purpose as an intentional training target.
+The findings highlight the real-world importance of patching services, shifting away from unencrypted cleartext management interfaces, enforcing database password schemas, and using firewall rules to narrow target network accessibility profiles.
+
+Prepared by: Rudresha rk | InternSpark Internship | June 2026 |
+Classification: INTERNAL USE ONLY
+
