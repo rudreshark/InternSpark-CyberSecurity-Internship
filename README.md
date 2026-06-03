@@ -1,177 +1,361 @@
-# InternSpark Cybersecurity Internship - Active Reconnaissance & Vulnerability Assessment
+# InternSpark Cybersecurity Internship - Complete Assessment Suite
 
-## 📋 Project Overview
+## 🎓 Project Overview
 
-This repository contains comprehensive cybersecurity assessments conducted as part of the **InternSpark Internship Program**. The focus is on **Active Reconnaissance** and **Vulnerability Scanning** methodologies using industry-standard ethical hacking tools in a controlled, isolated lab environment.
+Welcome to the **InternSpark Cybersecurity Internship** repository! This comprehensive project contains 4 complete cybersecurity assessment tasks covering reconnaissance, web vulnerabilities, network analysis, and incident response.
 
-### Project Details
+### 📌 Institution Information
 - **Prepared By:** Rudresha RK
 - **Institution:** InternSpark Internship
-- **Date:** June 3, 2026
+- **Date:** June 2026
 - **Classification:** CONFIDENTIAL / INTERNAL ONLY
+- **Repository:** rudreshark/InternSpark-CyberSecurity-Internship
 
 ---
 
-## 🎯 Assessment Scope
+## 📚 Navigation Guide - All 4 Tasks
 
-### Target System
-- **Platform:** Metasploitable 2 (Linux)
-- **Target IP Address:** 192.168.56.101
-- **Attacker Machine:** Kali Linux
-- **Network Type:** VirtualBox Host-Only (192.168.56.0/24)
+Click on any task below to access the complete documentation, findings, and analysis:
 
-### Objectives
-✅ Perform host discovery and confirm target availability  
-✅ Enumerate open TCP ports and identify services/versions  
-✅ Conduct web server vulnerability scanning  
-✅ Document vulnerabilities with severity ratings and remediation steps  
-✅ Produce structured security reports for technical review
+### 🔴 [Task 1: Active Reconnaissance & Vulnerability Scanning](#task-1-active-reconnaissance--vulnerability-scanning)
+### 🟠 [Task 2: Web Vulnerability Assessment](#task-2-web-vulnerability-assessment)
+### 🟡 [Task 3: Network Traffic Analysis & Packet Inspection](#task-3-network-traffic-analysis--packet-inspection)
+### 🟢 [Task 4: Incident Response & Log Analysis](#task-4-incident-response--log-analysis)
 
 ---
 
-## 🔧 Tools & Methodologies
+## 🔴 Task 1: Active Reconnaissance & Vulnerability Scanning
 
-| Tool | Purpose |
-|------|---------|
-| **Nmap** | Host discovery, port enumeration, service version detection, OS fingerprinting |
-| **Nikto** | Web application vulnerability scanning, configuration analysis |
+**Comprehensive vulnerability assessment of test environment using industry-standard reconnaissance tools**
 
-### Techniques Applied
-- Host Discovery Ping Sweep
-- TCP Port & Service Enumeration
-- Aggressive OS Fingerprinting
-- Web Application Security Assessment
-- Vulnerability Classification & Risk Analysis
+### 📋 Overview
+- **Tools Used:** Nmap, Nikto
+- **Target System:** Metasploitable 2 (Linux)
+- **Network:** VirtualBox Host-Only (192.168.56.0/24)
+- **Assessment Type:** Active Reconnaissance & Vulnerability Scanning
+- **Date:** June 3, 2026
 
----
+### 📊 Key Findings
+- **Total Vulnerabilities:** 6
+- **Critical:** 2
+- **High:** 3
+- **Medium:** 1
 
-## 📊 Vulnerability Summary
+### 🎯 What You'll Find
+- Host discovery and port enumeration
+- Service version detection
+- Web server vulnerability scanning
+- Detailed vulnerability analysis with CVE references
+- Remediation prioritization plan
 
-### Vulnerability Distribution
+### 📖 [👉 VIEW TASK 1 COMPLETE README](README.md)
 
-| Severity | Count |
-|----------|-------|
-| **CRITICAL** | 2 |
-| **HIGH** | 3 |
-| **MEDIUM** | 1 |
-| **TOTAL** | **6** |
-
-### Key Findings at a Glance
-
-| Finding ID | Vulnerability | Port | Severity | CVE Reference |
-|-----------|--------------|------|----------|--------------|
-| F-01 | FTP Backdoor (vsftpd 2.3.4) | 21/tcp | **CRITICAL** | CVE-2011-2523 |
-| F-02 | Telnet Plaintext Protocol | 23/tcp | HIGH | N/A |
-| F-03 | Samba RCE | 139, 445 | HIGH | CVE-2007-2447 |
-| F-04 | MySQL No Root Password | 3306/tcp | HIGH | CWE-521 |
-| F-05 | phpinfo.php Information Disclosure | 80/tcp | MEDIUM | CWE-200 |
-| F-06 | UnrealIRCd Backdoor | 6667/tcp | **CRITICAL** | CVE-2010-2075 |
+**Files:**
+- `README.md` - Complete Task 1 documentation
+- `InternSpark_Internship_task1.txt` - Original assessment report
 
 ---
 
-## 🔴 Critical Vulnerabilities
+## 🟠 Task 2: Web Vulnerability Assessment
 
-### F-01: FTP Backdoor (CVE-2011-2523)
-- **Service:** vsftpd 2.3.4
-- **Risk:** Unauthenticated root shell access via backdoor activation
-- **Remediation:** Upgrade vsftpd to v3.0.x or disable FTP service
+**In-depth analysis of web application vulnerabilities including XSS and SQL Injection testing**
 
-### F-06: UnrealIRCd Backdoor (CVE-2010-2075)
-- **Service:** UnrealIRCd 3.2.8.1
-- **Risk:** Unauthenticated remote command execution
-- **Remediation:** Uninstall compromised version; reinstall from verified source
+### 📋 Overview
+- **Tools Used:** Burp Suite, Browser Developer Tools
+- **Target Application:** DVWA / Demo Test App
+- **Vulnerability Classes:** XSS, SQL Injection
+- **Assessment Type:** Web Application Security Testing
 
----
+### 🎯 What You'll Find
+- XSS vulnerability types (Reflected, Stored, DOM-based)
+- SQL Injection detection & exploitation techniques
+- Burp Suite complete usage guide
+- Request interception & payload injection methods
+- Mitigation strategies with code examples
+- Security headers implementation
+- Input validation best practices
 
-## 🟡 High-Severity Findings
+### 📖 [👉 VIEW TASK 2 COMPLETE README](https://github.com/rudreshark/InternSpark-CyberSecurity-Internship/tree/task-2)
 
-### F-02: Telnet Service (Cleartext Protocol)
-- **Impact:** Credentials exposed to network sniffing
-- **Fix:** Disable Telnet; enforce SSH for all remote access
-
-### F-03: Samba RCE (CVE-2007-2447)
-- **Impact:** Unauthenticated shell command execution
-- **Fix:** Upgrade Samba; restrict SMB ports via firewall
-
-### F-04: MySQL No Root Password (CWE-521)
-- **Impact:** Complete database compromise; arbitrary file write capability
-- **Fix:** Set strong root password; bind to localhost only
+**Access Task 2:**
+- Branch: `task-2`
+- Direct Link: https://github.com/rudreshark/InternSpark-CyberSecurity-Internship/tree/task-2
 
 ---
 
-## 🟠 Medium-Severity Findings
+## 🟡 Task 3: Network Traffic Analysis & Packet Inspection
 
-### F-05: phpinfo.php Information Disclosure (CWE-200)
-- **Impact:** Exposed system metadata and configuration details
-- **Fix:** Delete phpinfo.php; disable directory indexing
+**Packet-level network analysis capturing and interpreting HTTP, DNS, and TCP traffic patterns**
+
+### 📋 Overview
+- **Tools Used:** Wireshark, tcpdump, Tshark
+- **Protocols Analyzed:** HTTP, HTTPS, DNS, TCP, IP, ARP, ICMP
+- **Analysis Type:** Network Traffic Capture & Protocol Analysis
+- **Environment:** Isolated lab network
+
+### 🎯 What You'll Find
+- TCP three-way handshake analysis
+- DNS query types & resolution tracking
+- HTTP request/response methods
+- Packet structure & header analysis
+- Malformed packet detection
+- Suspicious traffic indicators
+- Wireshark filtering & analysis guide
+- tcpdump & Tshark command reference
+- Protocol-specific anomalies
+
+### 📖 [👉 VIEW TASK 3 COMPLETE README](TASK3_README.md)
+
+**Files:**
+- `TASK3_README.md` - Complete Task 3 documentation
 
 ---
 
-## 🛠️ Remediation Plan
+## 🟢 Task 4: Incident Response & Log Analysis
 
-| Priority | Finding | Timeline | Action |
-|----------|---------|----------|--------|
-| 1 | F-01 | 24 hours | Upgrade/disable vsftpd; block port 21 |
-| 2 | F-06 | 24 hours | Uninstall/reinstall UnrealIRCd; block port 6667 |
-| 3 | F-02 | 24 hours | Disable Telnet; enforce SSH |
-| 4 | F-03 | 48 hours | Patch Samba; add firewall restrictions |
-| 5 | F-04 | 48 hours | Secure MySQL; bind to localhost |
-| 6 | F-05 | 7 days | Remove diagnostic files; harden web server |
+**Realistic incident simulation with log analysis, IOC detection, and formal incident response procedures**
+
+### 📋 Overview
+- **Incident Type:** Simulated Security Incident
+- **Log Sources:** Windows Event Logs, SIEM Sample Logs
+- **Analysis Tools:** Windows Event Viewer, LogParser, SIEM
+- **Focus Areas:** IOC Detection, Threat Analysis, Response Procedures
+
+### 🎯 What You'll Find
+- Critical Windows Event IDs (4624, 4625, 4672, 4688, etc.)
+- Indicators of Compromise (IOCs) identification
+- Threat analysis & attribution
+- 4-Phase incident response framework
+- Containment & remediation strategies
+- Incident report templates
+- Attack pattern recognition
+- Log parsing & correlation techniques
+
+### 📖 [👉 VIEW TASK 4 COMPLETE README](TASK4_README.md)
+
+**Files:**
+- `TASK4_README.md` - Complete Task 4 documentation
 
 ---
 
-## 📁 Repository Structure
+## 🗂️ Repository Structure
 
 ```
 InternSpark-CyberSecurity-Internship/
-├── README.md                                    # This file
-├── InternSpark_Internship_task1.txt            # Detailed assessment report
-├── nmap_scan.txt                               # Nmap scan output
-└── [Additional assessment files]
+│
+├── README.md                          👈 Main overview (this file)
+│
+├── 📌 TASK 1: Active Reconnaissance
+│   ├── README.md                      # Task 1 complete documentation
+│   └── InternSpark_Internship_task1.txt # Original report
+│
+├── 📌 TASK 2: Web Vulnerability
+│   └── [task-2 branch]                # Access via task-2 branch
+│
+├── 📌 TASK 3: Network Analysis
+│   ├── TASK3_README.md                # Task 3 complete documentation
+│   └── [screenshots, pcap files]      # Evidence & captures
+│
+├── 📌 TASK 4: Incident Response
+│   ├── TASK4_README.md                # Task 4 complete documentation
+│   ├── [incident logs]                # Windows/SIEM logs
+│   └── [analysis reports]             # IOC lists, anomalies
+│
+└── [Supporting documentation]
 ```
 
 ---
 
-## ⚠️ Important Notes
+## 🚀 Quick Links to All Tasks
 
-### Disclaimer
-- **This assessment was conducted in a controlled, isolated VirtualBox lab environment**
-- **No external networks, public IP addresses, or third-party systems were accessed**
-- **All activities are for educational and authorized testing purposes only**
-- **This repository is classified as CONFIDENTIAL / INTERNAL ONLY**
-
-### Ethical Hacking Guidelines
-- ✅ Always obtain written authorization before conducting security assessments
-- ✅ Use isolated test environments for practice and training
-- ✅ Document all findings professionally and responsibly
-- ✅ Follow responsible vulnerability disclosure practices
-- ✅ Respect privacy and legal boundaries
+| Task | Branch | Link | Status |
+|------|--------|------|--------|
+| **Task 1** | main | [README.md](README.md) | ✅ Complete |
+| **Task 2** | task-2 | [task-2 branch](https://github.com/rudreshark/InternSpark-CyberSecurity-Internship/tree/task-2) | ✅ Complete |
+| **Task 3** | main | [TASK3_README.md](TASK3_README.md) | ✅ Complete |
+| **Task 4** | main | [TASK4_README.md](TASK4_README.md) | ✅ Complete |
 
 ---
 
-## 📚 References & Resources
+## 📊 Assessment Summary
 
-- **OWASP:** Open Web Application Security Project
-- **NIST:** Cybersecurity Framework
-- **CWE/CVE Databases:** Common Weakness & Vulnerability Enumeration
-- **Metasploitable 2:** Intentionally vulnerable Linux for penetration testing practice
+### Task 1: Active Reconnaissance
+**6 Vulnerabilities Identified**
+- 2 CRITICAL (FTP Backdoor, UnrealIRCd Backdoor)
+- 3 HIGH (Telnet, Samba RCE, MySQL)
+- 1 MEDIUM (phpinfo.php)
+
+### Task 2: Web Vulnerability Assessment
+**XSS & SQL Injection Testing**
+- Reflected XSS analysis
+- Stored XSS techniques
+- SQL Injection detection
+- Burp Suite methodology
+
+### Task 3: Network Analysis
+**Protocol Deep Dive**
+- TCP handshake analysis
+- DNS query resolution
+- HTTP traffic patterns
+- Wireshark tutorial
+
+### Task 4: Incident Response
+**Complete IR Framework**
+- Log analysis methodology
+- IOC detection procedures
+- Incident response phases
+- Remediation planning
+
+---
+
+## 🔧 Tools & Technologies Covered
+
+| Category | Tools |
+|----------|-------|
+| **Reconnaissance** | Nmap, Nikto |
+| **Web Security** | Burp Suite, Browser DevTools |
+| **Network Analysis** | Wireshark, tcpdump, Tshark |
+| **Log Analysis** | Windows Event Viewer, LogParser, SIEM, Splunk |
+| **Protocol Analysis** | TCP/IP stack, DNS, HTTP |
+| **Incident Response** | Forensic analysis, threat hunting |
+
+---
+
+## 📖 How to Use This Repository
+
+### For Beginners
+1. Start with **Task 1** - Understand reconnaissance methodology
+2. Read **Task 2** - Learn web vulnerability fundamentals
+3. Study **Task 3** - Explore network protocols
+4. Complete **Task 4** - Practice incident response
+
+### For Review/Evaluation
+1. Navigate to specific task README
+2. Review findings and screenshots
+3. Check evidence documentation
+4. Examine analysis reports
+
+### For Reference
+- Use individual task READMEs as guides
+- Reference tool usage instructions
+- Follow analysis frameworks
+- Adapt templates for your assessments
+
+---
+
+## 📋 Deliverables Checklist
+
+### ✅ Task 1 Deliverables
+- [x] Active reconnaissance report
+- [x] Vulnerability scan results
+- [x] CVE/CWE references
+- [x] Remediation plan
+
+### ✅ Task 2 Deliverables
+- [x] XSS vulnerability guide
+- [x] SQL Injection tutorial
+- [x] Burp Suite instructions
+- [x] Mitigation recommendations
+- [x] Code examples
+
+### ✅ Task 3 Deliverables
+- [x] Network protocol analysis
+- [x] TCP handshake breakdown
+- [x] DNS resolution guide
+- [x] Wireshark complete tutorial
+- [x] Traffic analysis methodology
+
+### ✅ Task 4 Deliverables
+- [x] Incident response framework
+- [x] Log analysis guide
+- [x] IOC detection procedures
+- [x] Incident report template
+- [x] Attack pattern recognition
+
+---
+
+## 🎯 Learning Objectives
+
+Upon completing all 4 tasks, you will understand:
+
+✅ **Reconnaissance** - Host discovery, service enumeration, vulnerability scanning  
+✅ **Web Security** - XSS, SQL Injection, application testing  
+✅ **Network Analysis** - Protocol analysis, packet inspection, traffic patterns  
+✅ **Incident Response** - Log analysis, threat detection, response procedures  
+
+---
+
+## 🛡️ Security Best Practices
+
+All assessments follow:
+- ✅ Ethical hacking guidelines
+- ✅ Authorized testing only
+- ✅ Isolated lab environments
+- ✅ Responsible disclosure
+- ✅ Professional documentation
+- ✅ Legal compliance
+
+---
+
+## 📚 Resources & References
+
+### Frameworks & Standards
+- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [SANS Incident Handling](https://www.sans.org/white-papers/)
+- [MITRE ATT&CK](https://attack.mitre.org/)
+
+### Tools Documentation
+- [Nmap Guide](https://nmap.org/book/)
+- [Burp Suite Manual](https://portswigger.net/burp)
+- [Wireshark User Guide](https://www.wireshark.org/docs/)
+- [Splunk Documentation](https://docs.splunk.com/)
 
 ---
 
 ## 👤 Author Information
 
 **Prepared By:** Rudresha RK  
-**Program:** InternSpark Cybersecurity Internship  
+**Institution:** InternSpark Cybersecurity Internship  
 **Date:** June 2026  
-**Contact:** [Your Contact Information]
+**Repository:** [rudreshark/InternSpark-CyberSecurity-Internship](https://github.com/rudreshark/InternSpark-CyberSecurity-Internship)
 
 ---
 
-## 📝 License & Confidentiality
+## 📝 Classification & Confidentiality
 
-This documentation is classified as **CONFIDENTIAL / INTERNAL ONLY** and is intended solely for authorized InternSpark staff, mentors, and evaluators. Unauthorized distribution or reproduction is prohibited.
+**CONFIDENTIAL / INTERNAL ONLY**
+
+This documentation is classified as confidential and intended solely for:
+- InternSpark staff and mentors
+- Authorized evaluators
+- Program participants
+
+Unauthorized distribution or reproduction is prohibited.
 
 ---
 
-**Last Updated:** June 3, 2026  
-**Status:** Complete - Ready for Academic Submission
+## 📞 Support & Contact
+
+For questions or clarifications regarding this assessment:
+- Review the individual task READMEs
+- Check the tools documentation
+- Refer to best practices sections
+- Contact InternSpark administration
+
+---
+
+## 🎉 Ready to Explore?
+
+Choose a task to get started:
+
+### [👉 Task 1: Active Reconnaissance](README.md)
+### [👉 Task 2: Web Vulnerability](https://github.com/rudreshark/InternSpark-CyberSecurity-Internship/tree/task-2)
+### [👉 Task 3: Network Analysis](TASK3_README.md)
+### [👉 Task 4: Incident Response](TASK4_README.md)
+
+---
+
+**Last Updated:** June 2026  
+**Status:** 🟢 Complete & Ready for Review
+
